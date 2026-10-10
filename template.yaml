@@ -1,0 +1,50 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  Aero-Match: Symptom-to-Pollutant AI Diagnostic Tool
+  Environmental Hacks (AWS Bharat Builds Tour) - Air Track
+
+Globals:
+  Function:
+    Timeout: 10
+    MemorySize: 256
+    Runtime: python3.11
+
+Resources:
+  AeroMatchFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: backend/
+      Handler: symptom_agent.lambda_handler
+      Environment:
+        Variables:
+          DYNAMODB_TABLE_NAME: !Ref AeroMatchTable
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref AeroMatchTable
+      Events:
+        DiagnoseAPI:
+          Type: Api
+          Properties:
+            Path: /diagnose
+            Method: get
+
+  AeroMatchTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: aero_match_logs
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+Outputs:
+  AeroMatchApi:
+    Description: "API Gateway endpoint URL for Prod stage for Diagnose function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/diagnose/"
+  AeroMatchFunctionArn:
+    Description: "Lambda Function ARN"
+    Value: !GetAtt AeroMatchFunction.Arn
