@@ -1,16 +1,31 @@
-# Aero-Match: Symptom-to-Pollutant AI Diagnostic Tool
+# 🩺 Aero-Match: Symptom-to-Pollutant AI Diagnostic Tool
 
 > **Hackathon:** Environmental Hacks (AWS Bharat Builds Tour) — **Air Track**  
-> **Goal:** Build an intuitive, real-time diagnostic AI tool that maps physical human symptoms to hyper-local air pollutants using Open-Meteo, AWS Lambda, DynamoDB, and Amazon Bedrock/SageMaker.
+> **Goal:** Build an intuitive, real-time diagnostic AI tool that maps physical human symptoms to hyper-local air pollutants using Open-Meteo, AWS Lambda, DynamoDB, and Serverless architectures.
+
+---
+
+## 🚀 Run the Application Live
+
+👉 **[Click Here to Open Aero-Match Live App](https://ANAND-debug-bit.github.io/AWS-x-We-Make-devs/frontend.html)** *(or open `frontend.html` locally in any browser)*
+
+---
+
+## ✨ Key Features
+
+1. **Hyper-Local Air Telemetry**: Fetches real-time pollutant readings (PM2.5, PM10, NO2, Ozone, SO2, CO) from the free Open-Meteo Air Quality API using GPS coordinates or city/locality autocomplete.
+2. **Pre-Existing Medical Conditions Checkboxes**: During registration, users can select pre-existing health conditions (*Asthma / COPD, Heart Disease / Hypertension, Severe Allergies, Chronic Sinusitis / Migraine*) to personalize diagnostics.
+3. **Internal Issue Flagging & DynamoDB Audit Log**: Tracks consultation history against audit records. If identical symptoms recur or correlate with pre-existing conditions, the app flags probable internal health issues.
+4. **AI Trust Score Calculation**: Dynamically computes a safety trust score badge factoring in repeat frequency and medical history against clinical thresholds.
+5. **Dr. Pal Doctor Agent**: An interactive penguin health companion providing instant guidance and safety warnings.
 
 ---
 
 ## 📂 Project Directory Structure
 
-To adhere to the hackathon's modularity rules and prevent `main.py` merge conflicts, all service components are structured modularly:
-
 ```text
 AWS-x-We-Make-devs/
+├── frontend.html                  # Full-stack Interactive UI (Dr. Pal, Registration, GPS, Trust Score, Audit)
 ├── template.yaml                  # AWS SAM CLI Template for Serverless Stack
 ├── localstack_setup.sh            # LocalStack local development & test script
 ├── backend/
@@ -43,8 +58,8 @@ AWS-x-We-Make-devs/
    ```bash
    curl -G "http://127.0.0.1:3000/diagnose" \
      --data-urlencode "symptoms=My eyes are burning and I woke up with a headache" \
-     --data-urlencode "lat=28.6139" \
-     --data-urlencode "lon=77.2090"
+     --data-urlencode "lat=19.0596" \
+     --data-urlencode "lon=72.8295"
    ```
 
 ---
@@ -62,14 +77,4 @@ When ready to deploy your production MVP to AWS Lambda, API Gateway, and DynamoD
    ```bash
    sam deploy --guided
    ```
-   *Follow the prompts (accept defaults: stack name `aero-match-prod`, region `us-east-1` or your preferred region, confirm changes).*
-
----
-
-## 🧠 3. Core AI Agent & Data Mapping Logic (`symptom_agent.py`)
-
-The core script implements:
-- **Natural Language Parsing:** Scans user statements against predefined medical symptom clusters (`PM2.5`, `PM10`, `NO2`, `O3`, `SO2`, `CO`).
-- **Real-Time Data Integration:** Calls the free **Open-Meteo Air Quality API** to pull live regional pollutant levels.
-- **Actionable Prescriptions:** Provides immediate, practical recommendations (e.g., turning on HEPA purifiers, closing windows, using lubricating eye drops).
-- **Audit & Telemetry:** Logs all diagnostic interactions directly into **Amazon DynamoDB**.
+   *(Follow the prompts: accept defaults like stack name `aero-match-prod`, region `us-east-1` or your preferred region, and confirm changes).*

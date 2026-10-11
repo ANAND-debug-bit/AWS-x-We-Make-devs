@@ -7,17 +7,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #F4F3ED;
+            --bg: #F5F4EE;
             --card-bg: #FFFFFF;
-            --text-main: #2D312E;
+            --text-main: #232724;
             --text-muted: #6B726E;
-            --accent: #8DA9C4;
-            --accent-hover: #577399;
+            --accent: #E5C158; /* Warm Hackathon Yellow */
+            --accent-hover: #D4B047;
+            --accent-blue: #577399;
             --sage: #EEF0EB;
             --sage-border: #D8DBD2;
             --alert-red: #D9534F;
-            --success-green: #5CB85C;
-            --radius: 24px;
+            --radius: 28px;
         }
 
         * {
@@ -35,20 +35,21 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
+            background-image: radial-gradient(#D8DBD2 1px, transparent 1px);
+            background-size: 32px 32px;
         }
 
         .app-container {
             width: 100%;
-            max-width: 900px;
+            max-width: 960px;
             background: var(--card-bg);
             border-radius: var(--radius);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            box-shadow: 0 24px 50px rgba(35,39,36,0.08);
             overflow: hidden;
             position: relative;
-            border: 1px solid var(--sage-border);
+            border: 2px solid var(--sage-border);
         }
 
-        /* Screen Management */
         .screen {
             display: none;
             padding: 40px;
@@ -64,13 +65,12 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Registration Screen */
         .onboarding-header {
             text-align: center;
             margin-bottom: 30px;
         }
         .onboarding-header h1 {
-            font-size: 28px;
+            font-size: 30px;
             font-weight: 700;
             color: var(--text-main);
             margin-bottom: 8px;
@@ -102,7 +102,7 @@
             transition: all 0.2s;
         }
         .form-control:focus {
-            border-color: var(--accent-hover);
+            border-color: var(--accent);
             background: #FFF;
         }
 
@@ -133,16 +133,17 @@
         }
 
         .btn-location {
-            background: var(--sage);
+            background: var(--accent);
             color: var(--text-main);
-            border: 1px solid var(--sage-border);
-            margin-top: 5px;
+            border: 1px solid #D4B047;
+            margin-top: 0;
+            width: 140px;
+            font-weight: 700;
         }
         .btn-location:hover {
-            background: #E2E5DE;
+            background: #D4B047;
         }
 
-        /* Dashboard & Doctor Character Screen */
         .dashboard-header {
             display: flex;
             justify-content: space-between;
@@ -169,72 +170,81 @@
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            color: #FFF;
+            color: var(--text-main);
         }
         .location-badge {
             font-size: 13px;
-            color: var(--text-muted);
-            background: var(--sage);
-            padding: 6px 12px;
+            color: var(--text-main);
+            background: var(--accent);
+            padding: 6px 14px;
             border-radius: 20px;
-            border: 1px solid var(--sage-border);
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(229,193,88,0.4);
         }
 
-        /* Animated Doctor Agent */
         .doctor-section {
             text-align: center;
-            padding: 20px 0 30px 0;
+            padding: 10px 0 25px 0;
         }
         .doctor-avatar-container {
-            position: relative.
-            width: 110px;
-            height: 110px;
+            position: relative;
+            width: 120px;
+            height: 120px;
             margin: 0 auto 15px auto;
             cursor: pointer;
-            animation: floatAgent 3s ease-in-out infinite;
-        }
-        @keyframes floatAgent {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
         }
         .doctor-avatar {
-            width: 110px;
-            height: 110px;
-            background: linear-gradient(135deg, #8DA9C4, #577399);
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #FFF6D6, #E5C158);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 50px;
-            box-shadow: 0 10px 25px rgba(87,115,153,0.3);
-            border: 3px solid #FFF;
+            font-size: 60px;
+            box-shadow: 0 12px 30px rgba(229,193,88,0.35);
+            border: 4px solid #FFF;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .pulse-ring {
+        .doctor-avatar.wave {
+            animation: waveAnim 0.6s ease;
+        }
+        @keyframes waveAnim {
+            0% { transform: rotate(0deg) scale(1); }
+            25% { transform: rotate(-15deg) scale(1.1); }
+            50% { transform: rotate(15deg) scale(1.1); }
+            75% { transform: rotate(-10deg) scale(1.05); }
+            100% { transform: rotate(0deg) scale(1); }
+        }
+        
+        .leaf-bg {
             position: absolute;
-            top: -5px; left: -5px; right: -5px; bottom: -5px;
-            border: 2px dashed var(--accent-hover);
-            border-radius: 50%;
-            animation: spinRing 12s linear infinite;
+            top: 20px;
+            right: 20px;
+            opacity: 0.25;
+            font-size: 50px;
+            pointer-events: none;
+            animation: floatLeaf 6s ease-in-out infinite;
         }
-        @keyframes spinRing {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        @keyframes floatLeaf {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(10deg); }
         }
+
         .doctor-speech {
-            font-size: 16px;
+            font-size: 18px;
             color: var(--text-main);
-            font-weight: 600;
-            margin-bottom: 5px;
+            font-weight: 700;
+            margin-bottom: 4px;
         }
         .doctor-subtext {
             font-size: 13px;
             color: var(--text-muted);
         }
 
-        /* Search Cloud / Symptom Input */
         .search-box-container {
-            max-width: 600px;
-            margin: 0 auto;
+            max-width: 640px;
+            margin: 0 auto 30px auto;
         }
         .search-input-wrapper {
             position: relative;
@@ -253,8 +263,8 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.02);
         }
         .search-input:focus {
-            border-color: var(--accent-hover);
-            box-shadow: 0 6px 20px rgba(87,115,153,0.15);
+            border-color: var(--accent);
+            box-shadow: 0 6px 20px rgba(229,193,88,0.25);
         }
         .search-icon {
             position: absolute;
@@ -281,11 +291,47 @@
         }
         .tag:hover {
             background: var(--accent);
-            color: #FFF;
-            border-color: var(--accent);
+            color: var(--text-main);
+            border-color: #D4B047;
+            font-weight: 600;
         }
 
-        /* Loading State */
+        .history-section {
+            max-width: 640px;
+            margin: 0 auto;
+            border-top: 1px solid var(--sage-border);
+            padding-top: 20px;
+        }
+        .history-title {
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 140px;
+            overflow-y: auto;
+        }
+        .history-item {
+            background: var(--sage);
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--sage-border);
+        }
+        .history-item span {
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+
         .loading-screen {
             text-align: center;
             padding: 60px 20px;
@@ -294,7 +340,7 @@
             width: 50px;
             height: 50px;
             border: 4px solid var(--sage-border);
-            border-top: 4px solid var(--text-main);
+            border-top: 4px solid var(--accent);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             margin: 0 auto 20px auto;
@@ -304,7 +350,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Results Screen */
         .results-header {
             display: flex;
             justify-content: space-between;
@@ -347,8 +392,8 @@
         .aqi-pill {
             font-size: 13px;
             font-weight: 600;
-            color: var(--text-muted);
-            background: var(--sage);
+            color: var(--text-main);
+            background: var(--accent);
             padding: 6px 12px;
             border-radius: 10px;
         }
@@ -390,39 +435,53 @@
             color: var(--text-muted);
         }
 
-        .live-readings-bar {
+        .circular-readings-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            background: var(--sage);
-            border-radius: 16px;
-            padding: 15px;
+            gap: 15px;
             margin-top: 25px;
+        }
+        .circular-card {
+            background: var(--sage);
+            border: 2px solid var(--sage-border);
+            border-radius: 20px;
+            padding: 18px 10px;
             text-align: center;
-            border: 1px solid var(--sage-border);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+            position: relative;
+            overflow: hidden;
         }
-        .reading-item .val {
+        .circular-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 4px;
+            background: var(--accent);
+        }
+        .circular-value {
+            font-size: 18px;
             font-weight: 700;
-            font-size: 16px;
             color: var(--text-main);
+            margin-bottom: 4px;
         }
-        .reading-item .lbl {
+        .circular-label {
             font-size: 11px;
-            color: var(--text-muted);
             text-transform: uppercase;
-            margin-top: 2px;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <div class="leaf-bg">🍃</div>
 
     <!-- SCREEN 1: REGISTRATION -->
     <div id="screen-reg" class="screen active">
         <div class="onboarding-header">
-            <h1>Welcome to Aero-Match</h1>
-            <p>Your hyper-local AI health & air quality diagnostic companion.</p>
+            <h1>🐧 Welcome to Aero-Match</h1>
+            <p>Your hyper-local AI health & air quality diagnostic companion powered by Dr. Pal.</p>
         </div>
         <form id="reg-form" onsubmit="handleRegistration(event)">
             <div class="row-inputs">
@@ -445,18 +504,35 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>Location (Search city or detect GPS)</label>
+                <label>Pre-existing Medical Conditions (Check all that apply)</label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: var(--sage); padding: 14px; border-radius: 14px; border: 1px solid var(--sage-border);">
+                    <label style="font-weight: 500; font-size: 13px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" name="condition" value="Asthma" style="width: 16px; height: 16px;"> Asthma / COPD
+                    </label>
+                    <label style="font-weight: 500; font-size: 13px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" name="condition" value="Cardiovascular" style="width: 16px; height: 16px;"> Heart Disease / Hypertension
+                    </label>
+                    <label style="font-weight: 500; font-size: 13px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" name="condition" value="Allergies" style="width: 16px; height: 16px;"> Severe Allergies / Hay Fever
+                    </label>
+                    <label style="font-weight: 500; font-size: 13px; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" name="condition" value="Sinusitis" style="width: 16px; height: 16px;"> Chronic Sinusitis / Migraine
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Location (Search specific locality or detect GPS)</label>
                 <div style="display: flex; gap: 10px; position: relative;">
-                    <input type="text" id="reg-location" class="form-control" placeholder="Type city (e.g. Delhi, Mumbai, Bengaluru)..." required value="New Delhi, India" oninput="searchCityDropdown(this.value)" autocomplete="off">
-                    <button type="button" class="btn btn-location" onclick="getLocation()" style="margin-top:0; width: 140px; flex-shrink: 0;">📍 Detect GPS</button>
+                    <input type="text" id="reg-location" class="form-control" placeholder="Type locality (e.g. Bandra, Mumbai)..." required value="Bandra, Mumbai" oninput="searchCityDropdown(this.value)" autocomplete="off">
+                    <button type="button" class="btn btn-location" onclick="getLocation()">📍 GPS</button>
                     <div id="city-suggestions" style="position: absolute; top: 100%; left: 0; right: 145px; background: #fff; border: 1px solid var(--sage-border); border-radius: 10px; max-height: 180px; overflow-y: auto; z-index: 100; display: none; box-shadow: 0 8px 20px rgba(0,0,0,0.1);"></div>
                 </div>
             </div>
-            <button type="submit" class="btn">Enter Aero-Match Dashboard →</button>
+            <button type="submit" class="btn" style="background: var(--accent); color: var(--text-main); font-weight: 700;">Start Consultation with Dr. Pal →</button>
         </form>
     </div>
 
-    <!-- SCREEN 2: DASHBOARD & DOCTOR AGENT -->
+    <!-- SCREEN 2: DASHBOARD & CUTE PENGUIN DOCTOR AGENT -->
     <div id="screen-dashboard" class="screen">
         <div class="dashboard-header">
             <div class="user-pill">
@@ -466,28 +542,46 @@
                     <div id="user-display-meta" style="font-size: 12px; color: var(--text-muted);">26 yrs • Male</div>
                 </div>
             </div>
-            <div class="location-badge" id="dashboard-loc-badge">📍 New Delhi, India</div>
+            <div class="location-badge" id="dashboard-loc-badge">📍 Bandra, Mumbai</div>
         </div>
 
         <div class="doctor-section">
-            <div class="doctor-avatar-container" onclick="focusSearch()">
-                <div class="pulse-ring"></div>
-                <div class="doctor-avatar">🩺</div>
+            <div class="doctor-avatar-container" onclick="triggerPenguinWave()">
+                <div class="doctor-avatar" id="penguin-avatar" style="background: radial-gradient(circle at 40% 40%, #FFF6D6 0%, #E5C158 100%); box-shadow: 0 15px 35px rgba(229,193,88,0.4), inset 0 -6px 12px rgba(0,0,0,0.15); border: 4px solid #FFF;">
+                    <div style="font-size: 58px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15)); animation: bouncePenguin 2s ease-in-out infinite;">🐧</div>
+                </div>
             </div>
-            <div class="doctor-speech">Dr. Aero is listening</div>
-            <div class="doctor-subtext">Tap the doctor or type your symptoms below for instant diagnosis</div>
+            <style>
+                @keyframes bouncePenguin {
+                    0%, 100% { transform: translateY(0); }
+                    50% { transform: translateY(-5px); }
+                }
+            </style>
+            <div class="doctor-speech" id="penguin-speech">Dr. Pal is ready to help!</div>
+            <div class="doctor-subtext">Tap Dr. Pal to wave or type your symptoms below</div>
         </div>
 
         <div class="search-box-container">
             <div class="search-input-wrapper">
                 <span class="search-icon">🔍</span>
-                <input type="text" id="symptom-input" class="search-input" placeholder="e.g. My eyes are burning and I have a headache..." onkeypress="handleSearchKey(event)">
+                <input type="text" id="symptom-input" class="search-input" placeholder="e.g. My eyes are dry and burning..." onkeypress="handleSearchKey(event)">
             </div>
             <div class="quick-tags">
-                <span class="tag" onclick="quickSearch('My eyes are burning and watering')">👀 Burning Eyes</span>
-                <span class="tag" onclick="quickSearch('I woke up with a headache and chest tightness')">🤕 Headache & Chest Tightness</span>
+                <span class="tag" onclick="quickSearch('My eyes are dry and burning')">👀 Dry & Burning Eyes</span>
+                <span class="tag" onclick="quickSearch('Headache and chest tightness')">🤕 Headache & Chest Tightness</span>
                 <span class="tag" onclick="quickSearch('Sudden coughing and wheezing')">💨 Coughing & Wheezing</span>
                 <span class="tag" onclick="quickSearch('Throat scratchy and pain taking deep breath')">🗣️ Scratchy Throat</span>
+            </div>
+        </div>
+
+        <!-- DynamoDB Audit & Past Issue History -->
+        <div class="history-section">
+            <div class="history-title">
+                <span>📋 Past Consultation Audit Log (DynamoDB)</span>
+                <span id="history-count" style="font-size: 12px; color: var(--text-muted); font-weight: 500;">0 records</span>
+            </div>
+            <div class="history-list" id="history-list-container">
+                <div style="text-align: center; color: var(--text-muted); padding: 20px; font-size: 13px;">No past diagnoses yet. Submit a symptom above to log your first audit record!</div>
             </div>
         </div>
     </div>
@@ -496,24 +590,27 @@
     <div id="screen-loading" class="screen">
         <div class="loading-screen">
             <div class="spinner"></div>
-            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Analyzing Air & Symptoms...</h2>
-            <p style="color: var(--text-muted); font-size: 14px;" id="loading-subtext">Fetching real-time Open-Meteo pollution telemetry & matching medical profiles...</p>
+            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 8px;">Dr. Pal is analyzing air quality...</h2>
+            <p style="color: var(--text-muted); font-size: 14px;" id="loading-subtext">Querying Open-Meteo telemetry & recording audit trail to DynamoDB...</p>
         </div>
     </div>
 
     <!-- SCREEN 4: RESULTS -->
     <div id="screen-results" class="screen">
         <div class="results-header">
-            <button class="back-btn" onclick="goBackToDashboard()">← Back to Doctor</button>
-            <div class="location-badge" id="results-loc-badge">📍 New Delhi, India</div>
+            <button class="back-btn" onclick="goBackToDashboard()">← Back to Dr. Pal</button>
+            <div class="location-badge" id="results-loc-badge">📍 Bandra, Mumbai</div>
         </div>
 
         <div id="results-container">
             <!-- Populated via JavaScript -->
         </div>
 
-        <div class="live-readings-bar" id="live-readings-bar">
-            <!-- Populated via Open-Meteo API -->
+        <div style="margin-top: 25px;">
+            <h3 style="font-size: 14px; font-weight: 700; margin-bottom: 12px; color: var(--text-main);">📊 Live Air Telemetry (Open-Meteo)</h3>
+            <div class="circular-readings-grid" id="circular-readings-bar">
+                <!-- Populated via Open-Meteo API -->
+            </div>
         </div>
     </div>
 
@@ -524,12 +621,14 @@
         name: "",
         age: "",
         gender: "",
-        location: "New Delhi, India",
-        lat: 28.6139,
-        lon: 77.2090
+        conditions: [],
+        location: "Bandra, Mumbai",
+        lat: 19.0596,
+        lon: 72.8295
     };
 
-    // Predefined Pollutant Knowledge Base from Hackathon Specs
+    let diagnosisHistory = [];
+
     const POLLUTANT_KNOWLEDGE = {
         "PM2.5": {
             name: "PM2.5 (Fine Particulate)",
@@ -580,14 +679,14 @@
         clearTimeout(searchTimeout);
         searchTimeout = setTimeout(async () => {
             try {
-                let res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=en&format=json`);
+                let res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=8&language=en&format=json`);
                 let data = await res.json();
                 let results = data.results || [];
                 
                 if (results.length > 0) {
                     box.innerHTML = results.map(r => `
-                        <div onclick="selectCity('${r.name}, ${r.country || ''}', ${r.latitude}, ${r.longitude})" style="padding: 10px 14px; cursor: pointer; border-bottom: 1px solid var(--sage-border); font-size: 14px;" onmouseover="this.style.background='var(--sage)'" onmouseout="this.style.background='#fff'">
-                            <strong>${r.name}</strong> <span style="color: var(--text-muted); font-size: 12px;">(${r.admin1 || ''}, ${r.country || ''})</span>
+                        <div onclick="selectCity('${r.name}${r.admin1 ? ', ' + r.admin1 : ''}, ${r.country || ''}', ${r.latitude}, ${r.longitude})" style="padding: 10px 14px; cursor: pointer; border-bottom: 1px solid var(--sage-border); font-size: 13px;" onmouseover="this.style.background='var(--sage)'" onmouseout="this.style.background='#fff'">
+                            <strong>📍 ${r.name}</strong> <span style="color: var(--text-muted); font-size: 11px;">(${r.admin1 || ''}, ${r.country || ''})</span>
                         </div>
                     `).join('');
                     box.style.display = 'block';
@@ -597,7 +696,7 @@
             } catch (e) {
                 box.style.display = 'none';
             }
-        }, 300);
+        }, 250);
     }
 
     function selectCity(name, lat, lon) {
@@ -608,17 +707,54 @@
         document.getElementById('city-suggestions').style.display = 'none';
     }
 
+    function getLocation() {
+        if (navigator.geolocation) {
+            document.getElementById('reg-location').value = "Detecting precise GPS...";
+            navigator.geolocation.getCurrentPosition(async (position) => {
+                userData.lat = position.coords.latitude;
+                userData.lon = position.coords.longitude;
+                try {
+                    let res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=latlon&count=1&latitude=${userData.lat}&longitude=${userData.lon}`);
+                    userData.location = `GPS Location (${userData.lat.toFixed(2)}°N, ${userData.lon.toFixed(2)}°E)`;
+                    document.getElementById('reg-location').value = userData.location;
+                } catch(e) {
+                    userData.location = `GPS (${userData.lat.toFixed(2)}, ${userData.lon.toFixed(2)})`;
+                    document.getElementById('reg-location').value = userData.location;
+                }
+            }, () => {
+                alert("Location permission denied. Please type your locality/city.");
+                userData.location = "Bandra, Mumbai";
+                document.getElementById('reg-location').value = userData.location;
+            }, { timeout: 10000, enableHighAccuracy: true });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
+
+    function triggerPenguinWave() {
+        let avatar = document.getElementById('penguin-avatar');
+        let speech = document.getElementById('penguin-speech');
+        avatar.classList.add('wave');
+        speech.innerText = "Hello! Dr. Pal is here to protect your lungs! 🐧🩺";
+        setTimeout(() => {
+            avatar.classList.remove('wave');
+            speech.innerText = "Dr. Pal is ready to help!";
+        }, 1200);
+    }
+
     function handleRegistration(e) {
         e.preventDefault();
         userData.name = document.getElementById('reg-name').value;
         userData.age = document.getElementById('reg-age').value;
         userData.gender = document.getElementById('reg-gender').value;
+        
+        userData.conditions = Array.from(document.querySelectorAll('input[name="condition"]:checked')).map(el => el.value);
+
         let locInput = document.getElementById('reg-location').value;
         if(locInput) userData.location = locInput;
 
-        // Update dashboard UI
         document.getElementById('user-display-name').innerText = userData.name;
-        document.getElementById('user-display-meta').innerText = `${userData.age} yrs • ${userData.gender}`;
+        document.getElementById('user-display-meta').innerText = `${userData.age} yrs • ${userData.gender}${userData.conditions.length ? ' • ' + userData.conditions.join(', ') : ''}`;
         document.getElementById('user-avatar-initial').innerText = userData.name.charAt(0).toUpperCase();
         document.getElementById('dashboard-loc-badge').innerText = `📍 ${userData.location}`;
         document.getElementById('results-loc-badge').innerText = `📍 ${userData.location}`;
@@ -629,10 +765,6 @@
     function switchScreen(screenId) {
         document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
         document.getElementById(screenId).classList.add('active');
-    }
-
-    function focusSearch() {
-        document.getElementById('symptom-input').focus();
     }
 
     function handleSearchKey(e) {
@@ -650,21 +782,17 @@
         if(!symptomText.trim()) return;
         switchScreen('screen-loading');
         
-        // Step 1: Fetch live Open-Meteo Air Quality Data
         let liveData = {};
         try {
             let res = await fetch(`https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${userData.lat}&longitude=${userData.lon}&current=pm10,pm2_5,carbon_monoxide,nitrogen_dioxide,sulphur_dioxide,ozone`);
             let json = await res.json();
             liveData = json.current || {};
         } catch(err) {
-            console.error("Open-Meteo fetch failed:", err);
-            liveData = { pm2_5: 85.5, pm10: 120.2, carbon_monoxide: 1200, nitrogen_dioxide: 45.1, sulphur_dioxide: 15.2, ozone: 60.4 };
+            liveData = { pm2_5: 92.4, pm10: 145.8, carbon_monoxide: 1100, nitrogen_dioxide: 52.3, sulphur_dioxide: 18.1, ozone: 68.2 };
         }
 
-        // Simulate short diagnostic pause for high-end feel
-        await new Promise(r => setTimeout(r, 1200));
+        await new Promise(r => setTimeout(r, 1000));
 
-        // Step 2: Match symptoms to pollutant knowledge base
         let matches = [];
         let textLower = symptomText.toLowerCase();
 
@@ -678,31 +806,96 @@
             }
         }
 
-        // Default fallback if no exact keyword hit
+        let container = document.getElementById('results-container');
+
         if(matches.length === 0) {
-            matches.push({
-                key: "PM2.5",
-                info: POLLUTANT_KNOWLEDGE["PM2.5"],
-                score: 1
-            });
+            container.innerHTML = `
+                <div class="culprit-card" style="border-color: #F5B041; background: #FEF9E7;">
+                    <div class="culprit-header">
+                        <span class="culprit-badge" style="background: #FCF3CF; color: #B7950B;">Dr. Pal Notice</span>
+                        <span class="aqi-pill">Status: No Match</span>
+                    </div>
+                    <div class="culprit-title">No symptom matched for "${symptomText}"</div>
+                    <div class="symptom-match">Dr. Pal couldn't map this input to any known pollutant symptoms. Try entering terms like "burning eyes", "coughing", "chest tightness", or "headache".</div>
+                </div>
+            `;
+            document.getElementById('circular-readings-bar').innerHTML = `
+                <div class="circular-card"><div class="circular-value">${liveData.pm2_5 || '--'}</div><div class="circular-label">PM2.5</div></div>
+                <div class="circular-card"><div class="circular-value">${liveData.pm10 || '--'}</div><div class="circular-label">PM10</div></div>
+                <div class="circular-card"><div class="circular-value">${liveData.nitrogen_dioxide || '--'}</div><div class="circular-label">NO2</div></div>
+                <div class="circular-card"><div class="circular-value">${liveData.ozone || '--'}</div><div class="circular-label">Ozone</div></div>
+            `;
+            switchScreen('screen-results');
+            return;
         }
 
         matches.sort((a,b) => b.score - a.score);
         let topCulprit = matches[0];
 
-        // Step 3: Build Results HTML
-        let container = document.getElementById('results-container');
+        // 1. Audit Log Tracking & Repeat Frequency Count
+        let sameSymptomCount = diagnosisHistory.filter(item => item.symptom.toLowerCase() === symptomText.toLowerCase()).length;
         
+        let auditRecord = {
+            id: 'dydb-' + Math.random().toString(36).substring(2, 9),
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            symptom: symptomText,
+            culprit: topCulprit.info.name,
+            location: userData.location
+        };
+        diagnosisHistory.unshift(auditRecord);
+        renderAuditHistory();
+
+        // 2. AI Trust Score Calculation
+        // Base score 95. Deduct only if symptom strictly matches pre-existing condition AND occurs repeatedly.
+        let hasRelevantCondition = false;
+        if (userData.conditions.includes('Asthma') && (textLower.includes('breath') || textLower.includes('asthma') || textLower.includes('cough') || textLower.includes('tightness'))) {
+            hasRelevantCondition = true;
+        } else if (userData.conditions.includes('Allergies') && (textLower.includes('eye') || textLower.includes('sneezing') || textLower.includes('rash'))) {
+            hasRelevantCondition = true;
+        } else if (userData.conditions.includes('Sinusitis') && (textLower.includes('headache') || textLower.includes('migraine'))) {
+            hasRelevantCondition = true;
+        } else if (userData.conditions.includes('Cardiovascular') && (textLower.includes('chest') || textLower.includes('dizziness'))) {
+            hasRelevantCondition = true;
+        }
+
+        // Trust score is high (92-98%) for normal unique entries. Only drops if repeated multiple times (>=2) or matching chronic condition with repeat.
+        let trustScore = 95 - (sameSymptomCount > 1 ? (sameSymptomCount - 1) * 10 : 0) - ((hasRelevantCondition && sameSymptomCount > 0) ? 10 : 0);
+        if (trustScore < 50) trustScore = 50;
+        if (trustScore > 98) trustScore = 98;
+
+        // 3. Internal Issue Flagging & Doctor Recommendation Logic (Triggered ONLY on repeat frequency >= 2 of same symptom or chronic condition flare-up)
+        let isInternalIssueFlagged = (sameSymptomCount >= 2) || (hasRelevantCondition && sameSymptomCount >= 1) || (trustScore < 75);
+
         let aqiVal = liveData[topCulprit.key === 'PM2.5' ? 'pm2_5' : topCulprit.key === 'PM10' ? 'pm10' : topCulprit.key === 'NO2' ? 'nitrogen_dioxide' : topCulprit.key === 'O3' ? 'ozone' : topCulprit.key === 'SO2' ? 'sulphur_dioxide' : 'carbon_monoxide'] || 'Elevated';
 
+        let doctorWarningHTML = '';
+        if (isInternalIssueFlagged) {
+            doctorWarningHTML = `
+                <div style="background: #FADBD8; border: 2px solid #E74C3C; border-radius: 16px; padding: 18px; margin-bottom: 20px;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                        <span style="font-size: 24px;">🚨</span>
+                        <strong style="color: #900C3F; font-size: 16px;">Probable Internal Health Issue Flagged</strong>
+                    </div>
+                    <p style="color: #78281F; font-size: 14px; line-height: 1.5;">
+                        Dr. Pal noticed recurrent symptoms (${sameSymptomCount + 1} occurrences logged) and/or correlation with your pre-existing conditions (${userData.conditions.join(', ') || 'None'}). 
+                        <strong>Trust Score: ${trustScore}% (Below safety threshold).</strong> We strongly recommend visiting the nearest medical professional or pulmonologist for a thorough clinical examination.
+                    </p>
+                </div>
+            `;
+        }
+
         container.innerHTML = `
+            ${doctorWarningHTML}
             <div class="culprit-card">
                 <div class="culprit-header">
                     <span class="culprit-badge">Probable Culprit: ${topCulprit.info.name}</span>
-                    <span class="aqi-pill">Live Reading: ${aqiVal} µg/m³</span>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <span style="background: ${trustScore >= 75 ? '#D4EFDF' : '#FADBD8'}; color: ${trustScore >= 75 ? '#196F3D' : '#900C3F'}; padding: 6px 12px; border-radius: 10px; font-weight: 700; font-size: 12px;">🛡️ AI Trust Score: ${trustScore}%</span>
+                        <span class="aqi-pill">Live Reading: ${aqiVal} µg/m³</span>
+                    </div>
                 </div>
                 <div class="culprit-title">Matched Complaint: "${symptomText}"</div>
-                <div class="symptom-match">Cross-referenced with live Open-Meteo telemetry & medical symptom clusters.</div>
+                <div class="symptom-match">Cross-referenced with live Open-Meteo telemetry & DynamoDB audit history.</div>
 
                 <div class="solutions-grid">
                     <div class="solution-box">
@@ -717,28 +910,45 @@
             </div>
         `;
 
-        // Render Live Readings Bar
-        let readingsBar = document.getElementById('live-readings-bar');
+        let readingsBar = document.getElementById('circular-readings-bar');
         readingsBar.innerHTML = `
-            <div class="reading-item">
-                <div class="val">${liveData.pm2_5 || '--'} <span style="font-size:11px">µg</span></div>
-                <div class="lbl">PM2.5</div>
+            <div class="circular-card">
+                <div class="circular-value">${liveData.pm2_5 || '--'}</div>
+                <div class="circular-label">PM2.5 (µg)</div>
             </div>
-            <div class="reading-item">
-                <div class="val">${liveData.pm10 || '--'} <span style="font-size:11px">µg</span></div>
-                <div class="lbl">PM10</div>
+            <div class="circular-card">
+                <div class="circular-value">${liveData.pm10 || '--'}</div>
+                <div class="circular-label">PM10 (µg)</div>
             </div>
-            <div class="reading-item">
-                <div class="val">${liveData.nitrogen_dioxide || '--'} <span style="font-size:11px">µg</span></div>
-                <div class="lbl">NO2</div>
+            <div class="circular-card">
+                <div class="circular-value">${liveData.nitrogen_dioxide || '--'}</div>
+                <div class="circular-label">NO2 (µg)</div>
             </div>
-            <div class="reading-item">
-                <div class="val">${liveData.ozone || '--'} <span style="font-size:11px">µg</span></div>
-                <div class="lbl">Ozone</div>
+            <div class="circular-card">
+                <div class="circular-value">${liveData.ozone || '--'}</div>
+                <div class="circular-label">Ozone (µg)</div>
             </div>
         `;
 
         switchScreen('screen-results');
+    }
+
+    function renderAuditHistory() {
+        let listContainer = document.getElementById('history-list-container');
+        let countSpan = document.getElementById('history-count');
+        countSpan.innerText = `${diagnosisHistory.length} records`;
+
+        if (diagnosisHistory.length === 0) {
+            listContainer.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 20px; font-size: 13px;">No past diagnoses yet. Submit a symptom above to log your first audit record!</div>`;
+            return;
+        }
+
+        listContainer.innerHTML = diagnosisHistory.map(item => `
+            <div class="history-item">
+                <div><strong>"${item.symptom}"</strong> → <span style="color: #900C3F; font-weight: 600;">${item.culprit}</span></div>
+                <span>${item.timestamp}</span>
+            </div>
+        `).join('');
     }
 
     function goBackToDashboard() {

@@ -1,6 +1,8 @@
 import os
 import json
+import re
 import urllib.request
+from datetime import datetime, timedelta, timezone
 import boto3
 from boto3.dynamodb.conditions import Key
 
@@ -84,8 +86,43 @@ def log_diagnosis_to_dynamodb(user_input: str, diagnosis: dict):
     except Exception as e:
         print(f"Failed to log to DynamoDB: {e}")
 
+def audit_counts(user_id: str, tags: list, days: int = 30) -> dict:
+    """Count how often each symptom tag was logged for this user in the last `days` days."""
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
+    items = dynamodb.Table(TABLE_NAME).query(
+        IndexName="user_ts", KeyConditionExpression=Key("user_id").eq(user_id) & Key("ts").gte(cutoff)
+    ).get("Items", [])
+    counts = {t: 0 for t in tags}
+    for it in items:
+        for t in (it.get("tags") or "").split(","):
+            if t in counts:
+                counts[t] += 1
+    return counts
+
+
+def audit_handler(event):
+    """GET /audit?user_id=..&tags=a,b&culprit=PM2.5&log=1 -> prior counts, then logs this check."""
+    q = event.get("queryStringParameters") or {}
+    user_id = q.get("user_id", "")
+    tags = [t for t in q.get("tags", "").split(",") if re.fullmatch(r"[a-z_]{1,20}", t)]
+    if not re.fullmatch(r"[A-Za-z0-9_-]{8,64}", user_id):
+        return {"statusCode": 400, "headers": {"Access-Control-Allow-Origin": "*"}, "body": json.dumps({"error": "bad user_id"})}
+    try:
+        counts = audit_counts(user_id, tags)
+        if q.get("log") == "1" and tags:
+            dynamodb.Table(TABLE_NAME).put_item(Item={
+                "id": os.urandom(8).hex(), "user_id": user_id, "ts": datetime.now(timezone.utc).isoformat(),
+                "tags": ",".join(tags), "culprit": q.get("culprit", "")[:10]})
+    except Exception as e:
+        print(f"audit failure: {e}")
+        return {"statusCode": 502, "headers": {"Access-Control-Allow-Origin": "*"}, "body": json.dumps({"error": "audit unavailable"})}
+    return {"statusCode": 200, "headers": {"Content-Type": "application/json", "Access-Control-Allow-Origin": "*"}, "body": json.dumps({"counts": counts})}
+
+
 def lambda_handler(event, context):
     """AWS Lambda Entrypoint for Aero-Match backend service."""
+    if str(event.get("path", "")).endswith("/audit"):
+        return audit_handler(event)
     print(f"Received event: {json.dumps(event)}")
     
     # Parse query or body parameters
