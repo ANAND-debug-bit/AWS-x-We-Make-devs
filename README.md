@@ -5,9 +5,12 @@
 
 ---
 
-## 🚀 Run the Application Live
+## 🚀 Run the Application Locally
 
-👉 **[Click Here to Open Aero-Match Live Preview & Web App](https://ANAND-debug-bit.github.io/AWS-x-We-Make-devs/preview.html)** *(or open `frontend.html` locally in any browser)*
+To run Aero-Match instantly, simply download or clone this repository, and open **`frontend.html`** in any web browser:
+```bash
+open frontend.html
+```
 
 ---
 
