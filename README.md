@@ -1,44 +1,37 @@
 # 🩺 Aero-Match: Symptom-to-Pollutant AI Diagnostic Tool
 
-> **Hackathon:** Environmental Hacks (AWS Bharat Builds Tour) — **Air Track**  
-> **Goal:** An intuitive, real-time diagnostic AI tool that maps physical human symptoms to hyper-local air pollutants using Open-Meteo, AWS serverless architecture, and interactive health agents.
+
+
+## About the Project
+
+* **The Problem:** Air pollution is a silent, pervasive crisis, and millions of people experience recurring physical symptoms such as dry or burning eyes, coughing, shortness of breath, sudden headaches, or wheezing without knowing which specific pollutant is triggering their discomfort. Existing air quality apps only display numbers like an AQI of 350 or a PM2.5 level, but they fail to connect those numbers to human health symptoms or offer any personalized guidance.
+* **The Solution (Aero-Match):** Aero-Match is an intelligent, real-time diagnostic web tool that bridges the gap between environmental monitoring and personal health. Users type their physical symptoms in natural language and select any pre-existing medical conditions, such as Asthma/COPD or severe allergies, and the tool then does the following:
+  1. It maps their symptoms to specific airborne pollutants (PM2.5, PM10, NO2, O3, SO2, and CO).
+  2. It pulls live, hyper-local air quality readings through GPS or location lookup.
+  3. It delivers actionable mitigation steps and safety recommendations through **Dr. Pal**, an interactive AI health assistant.
+  4. It maintains consultation audit logs and calculates a safety trust score.
+* **Target Audience:**
+  * Urban residents living in high-AQI regions benefit from understanding what is actually affecting them.
+  * Individuals with pre-existing respiratory or cardiovascular conditions, such as asthma, COPD, or chronic sinus issues, get personalized guidance.
+  * Community health advocates and environmental researchers can study local exposure patterns.
 
 ---
 
-## 📋 Hackathon Submission Questionnaire & Answers
-
-### 1. What does your project do? 
-**What problem does your project solve, and who is it for?**
-
-* **The Problem:** Air pollution is a silent, pervasive crisis. Millions of people experience recurring physical symptoms (such as dry/burning eyes, coughing, shortness of breath, sudden headaches, or wheezing) without knowing which specific pollutant is triggering their discomfort. Existing air quality apps only display numbers (like AQI 350 or PM2.5 levels) but fail to connect those numbers directly to human health symptoms or provide personalized guidance.
-* **The Solution (Aero-Match):** Aero-Match is an intelligent, real-time diagnostic web tool that bridges the gap between environmental monitoring and personal health. Users can type in their physical symptoms in natural language, select pre-existing medical conditions (such as Asthma/COPD or severe allergies), and instantly receive:
-  1. A diagnosis mapping their symptoms to specific airborne pollutants (PM2.5, PM10, NO2, O3, SO2, CO).
-  2. Live hyper-local air quality readings via GPS/location lookup.
-  3. Actionable mitigation steps and safety recommendations delivered by **Dr. Pal**, an interactive AI health assistant.
-  4. Consultation audit logs and safety trust score calculations.
-* **Target Audience:** 
-  * Urban residents living in high-AQI regions.
-  * Individuals with pre-existing respiratory or cardiovascular conditions (Asthma, COPD, chronic sinus issues).
-  * Community health advocates and environmental researchers seeking local exposure patterns.
-
----
-
-### 2. How did you use AWS in your project? 
-**Tell us what your project does and how you have used AWS in your project:**
+## How AWS Is Used
 
 * **AWS Open Source Stack:**
-  * **AWS SAM (Serverless Application Model):** Utilized for defining, building, and packaging our serverless architecture as Infrastructure as Code (`template.yaml`).
-  * **LocalStack:** Integrated via `localstack_setup.sh` to simulate AWS services locally (`http://localhost:4566`), enabling rapid offline development, testing, and debugging of Lambda functions and DynamoDB tables without incurring cloud costs during development.
-  * **Python AWS SDK (`boto3`):** Utilized for programmatic database operations, item persistence, and querying audit trails.
+  * **AWS SAM (Serverless Application Model)** is used to define, build, and package the serverless architecture as Infrastructure as Code in `template.yaml`.
+  * **LocalStack**, set up through `localstack_setup.sh`, simulates AWS services locally at `http://localhost:4566`, which allows rapid offline development, testing, and debugging of Lambda functions and DynamoDB tables without incurring cloud costs.
+  * **Python AWS SDK (`boto3`)** is used for programmatic database operations, item persistence, and querying audit trails.
 
 * **AWS Services:**
-  * **AWS Lambda (`backend/symptom_agent.py`):** Powers the core serverless backend. It handles natural language symptom parsing, maps symptoms to pollutant profiles, integrates with external meteorological APIs, and returns real-time diagnostic responses.
-  * **Amazon DynamoDB (`aero_match_logs`):** Serves as our scalable NoSQL data store. It stores consultation logs, audit histories, repeat frequency tracking, and symptom tags with on-demand billing (`PAY_PER_REQUEST`).
-  * **Amazon API Gateway:** Exposes RESTful HTTP endpoints (`/diagnose` and `/audit`) routing client requests securely to our AWS Lambda backend function.
+  * **AWS Lambda** (`backend/symptom_agent.py`) powers the core serverless backend by parsing natural language symptoms, mapping them to pollutant profiles, integrating with external meteorological APIs, and returning real-time diagnostic responses.
+  * **Amazon DynamoDB** (`aero_match_logs`) serves as the scalable NoSQL data store for consultation logs, audit histories, repeat frequency tracking, and symptom tags, using on-demand billing (`PAY_PER_REQUEST`).
+  * **Amazon API Gateway** exposes the RESTful HTTP endpoints `/diagnose` and `/audit`, routing client requests securely to the Lambda backend.
 
 ---
 
-## 🚀 How to Run Locally
+##  How to Run Locally
 
 To run Aero-Match instantly, simply download or clone this repository, and open **`frontend.html`** in any web browser:
 ```bash
@@ -56,7 +49,7 @@ sam local start-api --warm-containers EAGER --skip-pull-image
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 1. **Hyper-Local Air Telemetry**: Fetches real-time pollutant readings (PM2.5, PM10, NO2, Ozone, SO2, CO) from the free Open-Meteo Air Quality API using GPS coordinates or city/locality autocomplete.
 2. **Pre-Existing Medical Conditions Checkboxes**: During registration, users can select pre-existing health conditions (*Asthma / COPD, Heart Disease / Hypertension, Severe Allergies, Chronic Sinusitis / Migraine*) to personalize diagnostics.
@@ -66,7 +59,7 @@ sam local start-api --warm-containers EAGER --skip-pull-image
 
 ---
 
-## 📂 Project Directory Structure
+## Project Directory Structure
 
 ```text
 AWS-x-We-Make-devs/
