@@ -1,7 +1,7 @@
 # 🩺 Aero-Match: Symptom-to-Pollutant AI Diagnostic Tool
 
 > **Hackathon:** Environmental Hacks (AWS Bharat Builds Tour) — **Air Track**  
-> **Goal:** An intuitive, real-time diagnostic AI tool that maps physical human symptoms to hyper-local air pollutants using Open-Meteo, client-side intelligence, and interactive health agents.
+> **Goal:** An intuitive, real-time diagnostic AI tool that maps physical human symptoms to hyper-local air pollutants using Open-Meteo, AWS serverless architecture, and interactive health agents.
 
 ---
 
@@ -11,6 +11,16 @@ To run Aero-Match instantly, simply download or clone this repository, and open 
 ```bash
 open frontend.html
 ```
+
+---
+
+## ☁️ AWS Stack & Architecture Used
+
+Aero-Match is designed around a modern **AWS Serverless Architecture**:
+- **AWS Lambda (`backend/symptom_agent.py`)**: Runs serverless event-driven diagnostic functions and natural language symptom-to-pollutant mapping logic.
+- **Amazon DynamoDB (`aero_match_logs`)**: Stores consultation audit trails, symptom history, and repeat frequency tracking.
+- **Amazon API Gateway (`template.yaml`)**: Exposes RESTful HTTP endpoints (`/diagnose` and `/audit`) for seamless client-to-cloud communication.
+- **AWS SAM (Serverless Application Model)**: Defines infrastructure-as-code for rapid local development (via LocalStack) and cloud deployment.
 
 ---
 
@@ -29,6 +39,8 @@ open frontend.html
 ```text
 AWS-x-We-Make-devs/
 ├── frontend.html                  # Full-stack Interactive UI (Dr. Pal, Registration, GPS, Trust Score, Audit)
+├── template.yaml                  # AWS SAM Template for Serverless Stack
+├── localstack_setup.sh            # LocalStack local testing script
 ├── backend/
-     └── symptom_agent.py          # Core AI Mapping Logic & Open-Meteo API integration
+     └── symptom_agent.py          # Core AI Mapping Logic & AWS Lambda Handler
 ```
